@@ -28,12 +28,19 @@ export class BackendStack extends cdk.Stack {
   constructor(scope: cdk.Construct, id: string, props: BackendStackProps) {
     super(scope, id, props);
 
+    const bucketNamePrefix = new cdk.CfnParameter(this, "bucketNamePrefix", {
+      type: "String",
+      description: "Prefix for the name of the S3 buckets used to store datasets and web assets",
+      default: 'release',
+      allowedPattern: '^[a-z0-9]+$'
+    });
+
     const dataStorage = new DatasetStorage(this, "DatasetStorage", {
-      datasetsBucketName: props.datasetsBucketName,
+      datasetsBucketName: props.datasetsBucketName.replace('PREFIX',bucketNamePrefix.valueAsString),
     });
 
     const contentStorage = new ContentStorage(this, "ContentStorage", {
-      contentBucketName: props.contentBucketName,
+      contentBucketName: props.contentBucketName.replace('PREFIX',bucketNamePrefix.valueAsString),
     });
 
     const database = new Database(this, "Database");

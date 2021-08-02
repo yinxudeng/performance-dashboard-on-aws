@@ -44,7 +44,7 @@ deploy_auth() {
     cd $CDK_DIR
 
     if [ "$CDK_ADMIN_EMAIL" != "" ]; then
-        npm run cdk -- deploy Auth --require-approval never --parameters adminEmail=$CDK_ADMIN_EMAIL
+        npm run cdk -- deploy Auth --require-approval never --parameters adminEmail=$CDK_ADMIN_EMAIL --parameters bucketNamePrefix=$CDK_ENV_NAME
     else
         npm run cdk -- deploy Auth --require-approval never
     fi
@@ -57,7 +57,7 @@ deploy_backend() {
 
     cd $CDK_DIR
     echo "Deploying backend stack"
-    npm run cdk -- deploy Backend --require-approval never --outputs-file outputs-backend.json
+    npm run cdk -- deploy Backend --require-approval never --parameters bucketNamePrefix=$CDK_ENV_NAME --outputs-file outputs-backend.json
 }
 
 deploy_frontend() {

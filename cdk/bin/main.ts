@@ -20,8 +20,8 @@ const app = new cdk.App();
 const stackPrefix = "PerformanceDash-".concat(envName);
 const accountId = cdk.Aws.ACCOUNT_ID;
 const region = cdk.Aws.REGION;
-const datasetsBucketName = `performancedash-${envName.toLowerCase()}-${accountId}-${region}-datasets`;
-const contentBucketName = `performancedash-${envName.toLowerCase()}-${accountId}-${region}-content`;
+const datasetsBucketName = `performancedash-PREFIX-${accountId}-${region}-datasets`;
+const contentBucketName = `performancedash-PREFIX-${accountId}-${region}-content`;
 
 const auth = new AuthStack(app, "Auth", {
   stackName: stackPrefix.concat("-Auth"),

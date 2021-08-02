@@ -27,6 +27,13 @@ export class AuthStack extends cdk.Stack {
       minLength: 5,
     });
 
+    const bucketNamePrefix = new cdk.CfnParameter(this, "bucketNamePrefix", {
+      type: "String",
+      description: "Prefix for the name of the S3 buckets used to store datasets and web assets",
+      default: 'release',
+      allowedPattern: '^[a-z0-9]+$'
+    });
+
     const pool = new cognito.UserPool(this, "UserPool", {
       userInvitation: {
         emailSubject:
@@ -54,8 +61,8 @@ export class AuthStack extends cdk.Stack {
     };
 
     const stack = cdk.Stack.of(this);
-    const datasetsBucketArn = `arn:${stack.partition}:s3:::${props.datasetsBucketName}`;
-    const contentBucketArn = `arn:${stack.partition}:s3:::${props.contentBucketName}`;
+    const datasetsBucketArn = `arn:${stack.partition}:s3:::${props.datasetsBucketName.replace('PREFIX',bucketNamePrefix.valueAsString)}`;
+    const contentBucketArn = `arn:${stack.partition}:s3:::${props.contentBucketName.replace('PREFIX',bucketNamePrefix.valueAsString)}`;
 
     const authenticatedRole = this.buildAuthRole(
       identityPool,
