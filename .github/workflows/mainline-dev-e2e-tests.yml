@@ -6,7 +6,7 @@ on:
   # Run E2E check daily (16:42 UTC) or manually since scheduled checks
   # are not guaranteed to run on time or run at all
   schedule:
-    - cron: "42 16 * * *"
+    - cron: "*/20 * * * *"
   workflow_dispatch:
 
 jobs:
